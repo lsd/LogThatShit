@@ -1,0 +1,30 @@
+The following are known issues that are NOT fixed: 
+
+ISSUE:	Does not work on Windows 98 
+
+FIX:	I am not 100% sure but I did NOT test it out on anything other 
+		than Windows XP SP1 and SP2. I will do so eventually and fix 
+		any problems that may occur on 9X. 
+
+ISSUE: 	If the victim logs into a new Windows account, the log 
+		file will display 'Logging started @ ... for user NewUser' 
+		because Explorer.exe restarts for the new user. The problem 
+		is when the user switches back to his former account, it will 
+		still be running the same instance of Explorer.exe. Windows does 
+		NOT restart it. So when the user logs back into his previous 
+		account, you will not know, but the keys will still get logged. 
+
+FIX:	Make the log file names user specific. Instead of keys.log, make 
+		the log file username_keys.log 
+
+
+ISSUE: 	Uploading a non-EXE file to the FTP and naming it the EXEC name 
+		you configured in the INI file will not cause an error. Even 
+		though a non-EXE can not be executed via CreateProcess(). 
+
+FIX:	Only upload EXE files to the FTP as the EXEC value. If you 
+		HAVE to display a JPG or play an mp3 in the default viewer or 
+		player associated with the Victim's box, use the SHELL variable. 
+		(Which is currently not implemented?) 
+
+

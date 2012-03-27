@@ -1,0 +1,15 @@
+# LogThatShit 
+# A stealthly keylogger designed on and for Windows XP 
+# By Isam M. <r0cket(NO_SPAM)jump@yahoo.com> 
+# http://biodegradablegeek.com
+
+------------------------------------------------
+CHANGELOG CHANGELOG CHANGELOG CHANGELOG CHANGELOG 
+------------------------------------------------
+
+05/26/2005	1.0 
+------------------------------------------------
+  NOTE:  Released version 1.0 today. It was done weeks 
+ago but I did not do as much beta testing as I would of 
+liked, hence the delay. 
+
